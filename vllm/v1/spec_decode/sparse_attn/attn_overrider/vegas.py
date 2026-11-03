@@ -1,11 +1,15 @@
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-FileCopyrightText: Copyright contributors to the vLLM project
 # Vegas: https://arxiv.org/abs/2602.07223
+import inspect
+import os
+
 import torch
 import triton
 import triton.language as tl
 
 from vllm.config import VllmConfig
+from vllm.logger import init_logger
 from vllm.v1.spec_decode.sparse_attn.attn_overrider import BaseAttnOverrider
 from vllm.v1.spec_decode.sparse_attn.attn_overrider.utils import (
     varlen_reduce,
@@ -82,7 +86,7 @@ class VegasAttnOverrider(BaseAttnOverrider):
     #   "logit"  -> rank by raw (pre-softmax) attention scores.
     #   "weight" -> rematerialize softmax attention weights, i.e.
     #               exp(scale * score - lse), and rank by those.
-    SCORE_MODE = "weight"
+    SCORE_MODE = "logit"
 
     def __init__(
         self,
@@ -90,6 +94,34 @@ class VegasAttnOverrider(BaseAttnOverrider):
         device: torch.device,
     ):
         super().__init__(vllm_config, device)
+        backend = os.environ.get("VEGAS_BACKEND", "auto")
+        if backend not in ("auto", "native", "portable"):
+            raise ValueError(f"Unknown VEGAS_BACKEND={backend}")
+        self.portable = backend == "portable" or (
+            backend == "auto" and torch.cuda.get_device_capability(device)[0] == 8)
+        init_logger(__name__).info(
+            "Vegas SCORE_MODE=%s, backend=%s, device SM%s%s",
+            self.SCORE_MODE, "portable (FA2 verify + Triton QK/draft + torch topk)"
+            if self.portable else "native modified FA3",
+            *torch.cuda.get_device_capability(device))
+        if self.portable:
+            from .utils.sm86 import reduce_logit_scores, request_topk
+            if self.SCORE_MODE != "logit":
+                raise ValueError("Portable Vegas supports raw logit mode only")
+            self._reduce = reduce_logit_scores
+            self._topk = request_topk
+        else:
+            if torch.cuda.get_device_capability(device)[0] != 9:
+                raise RuntimeError(
+                    "Native Vegas uses modified SM90 FA3; use the portable "
+                    "SM86 backend or port/build a backend for this GPU.")
+            if "scores" not in inspect.signature(
+                    BaseAttnOverrider._original_attn_func).parameters:
+                raise RuntimeError(
+                    "Native Vegas requires its modified FlashAttention "
+                    "scores= API; an upstream FA3/FA4 install is insufficient.")
+            self._reduce = varlen_reduce
+            self._topk = varlen_topk
         parallel_config = vllm_config.parallel_config
         self.block_size = vllm_config.cache_config.block_size
         self.num_query_heads = \
@@ -121,7 +153,7 @@ class VegasAttnOverrider(BaseAttnOverrider):
         # large as calc_topk_workspace_size(batch, ...); a bigger one is fine
         # (it reads/zeros only what it needs by batch, max_k). It is passed
         # whole, no per-call slicing.
-        topk_workspace_size = calc_topk_workspace_size(
+        topk_workspace_size = 0 if self.portable else calc_topk_workspace_size(
             self.max_batch_size, self.max_model_len, self._topk_width
         )
         if topk_workspace_size <= self._attn_score_buffer.nbytes:
@@ -160,6 +192,8 @@ class VegasAttnOverrider(BaseAttnOverrider):
         # cached lookup. Best-effort: fall back to the built-in heuristic if it
         # fails for any reason.
         try:
+            if self.portable:
+                return  # No nvcc/CUB build or H100 tuning on the portable path.
             autotune_path(
                 max_len=self.max_model_len,
                 max_batch_size=self.max_batch_size,
@@ -234,6 +268,9 @@ class VegasAttnOverrider(BaseAttnOverrider):
         kwargs["block_table"] = \
             self._page_table[self.curr_layer, :self.batch_size]
 
+        if self.portable:
+            from .utils.sm86 import sparse_attention
+            return sparse_attention(*args, **kwargs)
         return BaseAttnOverrider._original_attn_func(*args, **kwargs)
 
     def _verify_attention(self, *args, **kwargs):
@@ -270,7 +307,15 @@ class VegasAttnOverrider(BaseAttnOverrider):
         # Collect per-query QK scores (first/last query) into the buffer.
         # In weight mode also return the per-token log-sum-exp so
         # the reduce kernel can rematerialize attention weights.
-        kwargs["scores"] = self._attn_score_buffer[:self.batch_size]
+        if self.portable:
+            from .utils.sm86 import collect_raw_scores
+            collect_raw_scores(
+                *args, **kwargs,
+                scores=self._attn_score_buffer[:self.batch_size])
+        else:
+            if kwargs.get("fa_version") != 3:
+                raise RuntimeError("Native Vegas score collection requires modified FA3 dispatch")
+            kwargs["scores"] = self._attn_score_buffer[:self.batch_size]
 
         cu_seqlens_q = kwargs["cu_seqlens_q"]
         if self._use_weight:
@@ -286,7 +331,7 @@ class VegasAttnOverrider(BaseAttnOverrider):
             softmax_scale = 1.0
 
         # Reduce scores/weights and get top-k indices for each request.
-        varlen_reduce(
+        self._reduce(
             x=self._attn_score_buffer[:self.batch_size],
             valid_lens=self._topk_valid_lens[:self.batch_size],
             reduce_entry=self._reduce_entry[:self.batch_size],
@@ -296,7 +341,7 @@ class VegasAttnOverrider(BaseAttnOverrider):
             softmax_scale=softmax_scale,
             use_weight=self._use_weight,
         )
-        varlen_topk(
+        self._topk(
             metric=self._reduced_score_buffer[:self.batch_size],
             topks=self._topk_budget[:self.batch_size],
             valid_lens=self._topk_valid_lens[:self.batch_size],

@@ -1,0 +1,282 @@
+diff --git a/.gitignore b/.gitignore
+index 375b1b7eb..f4127def0 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -202,6 +202,8 @@ AGENTS.md
+ 
+ # Results
+ *.csv
++!results/*.csv
++!results/failures/*.csv
+ 
+ # Python pickle files
+ *.pkl
+diff --git a/vllm/v1/sample/rejection_sampler.py b/vllm/v1/sample/rejection_sampler.py
+index 248e7e262..824d44cab 100644
+--- a/vllm/v1/sample/rejection_sampler.py
++++ b/vllm/v1/sample/rejection_sampler.py
+@@ -137,6 +137,13 @@ class RejectionSampler(nn.Module):
+             sampling_metadata,
+         )
+ 
++        # Optional benchmark observer. Counters are written by the actual
++        # accept/reject branches, before EOS/max-token scheduler truncation.
++        observer = getattr(self, "acceptance_observer", None)
++        accepted_counts = (
++            torch.empty(len(metadata.num_draft_tokens), device=logits.device,
++                        dtype=torch.int32) if observer is not None else None
++        )
+         output_token_ids = rejection_sample(
+             metadata.draft_token_ids,
+             metadata.num_draft_tokens,
+@@ -146,7 +153,10 @@ class RejectionSampler(nn.Module):
+             target_logits,
+             bonus_token_ids,
+             sampling_metadata,
++            accepted_counts=accepted_counts,
+         )
++        if observer is not None:
++            observer(metadata.num_draft_tokens, accepted_counts)
+ 
+         logprobs_tensors = None
+         if sampling_metadata.max_num_logprobs is not None:
+@@ -355,6 +365,7 @@ def rejection_sample(
+     # [batch_size, 1]
+     bonus_token_ids: torch.Tensor,
+     sampling_metadata: SamplingMetadata,
++    accepted_counts: torch.Tensor | None = None,
+ ) -> torch.Tensor:
+     assert draft_token_ids.ndim == 1
+     assert draft_probs is None or draft_probs.ndim == 2
+@@ -393,6 +404,7 @@ def rejection_sample(
+             bonus_token_ids,
+             is_greedy,
+             max_spec_len,
++            accepted_counts,
+         )
+         if sampling_metadata.all_greedy:
+             return output_token_ids
+@@ -437,6 +449,7 @@ def rejection_sample(
+         max_spec_len,
+         vocab_size,
+         NO_DRAFT_PROBS=draft_probs is None,
++        accepted_counts_ptr=accepted_counts,
+     )
+     return output_token_ids
+ 
+@@ -709,6 +722,7 @@ def rejection_greedy_sample_kernel(
+     bonus_token_ids_ptr,  # [batch_size]
+     is_greedy_ptr,  # [batch_size] or None
+     max_spec_len,
++    accepted_counts_ptr=None,
+ ):
+     req_idx = tl.program_id(0)
+     # FIXME(woosuk): Because is_greedy_ptr is not None at profiling run,
+@@ -723,6 +737,7 @@ def rejection_greedy_sample_kernel(
+     num_draft_tokens = end_idx - start_idx
+ 
+     rejected = False
++    accepted = 0
+     for pos in range(num_draft_tokens):
+         if not rejected:
+             draft_token_id = tl.load(draft_token_ids_ptr + start_idx + pos)
+@@ -734,6 +749,11 @@ def rejection_greedy_sample_kernel(
+             if draft_token_id != target_argmax_id:
+                 # Reject.
+                 rejected = True
++            else:
++                accepted += 1
++
++    if accepted_counts_ptr is not None:
++        tl.store(accepted_counts_ptr + req_idx, accepted)
+ 
+     if not rejected:
+         # If all tokens are accepted, append the bonus token.
+@@ -759,6 +779,7 @@ def rejection_random_sample_kernel(
+     max_spec_len,
+     vocab_size,
+     NO_DRAFT_PROBS: tl.constexpr,
++    accepted_counts_ptr=None,
+ ):
+     req_idx = tl.program_id(0)
+     is_greedy = tl.load(is_greedy_ptr + req_idx)
+@@ -771,6 +792,7 @@ def rejection_random_sample_kernel(
+     num_draft_tokens = end_idx - start_idx
+ 
+     rejected = False
++    accepted = 0
+     for pos in range(num_draft_tokens):
+         if not rejected:
+             draft_token_id = tl.load(draft_token_ids_ptr + start_idx + pos)
+@@ -789,6 +811,7 @@ def rejection_random_sample_kernel(
+             if draft_prob > 0 and target_prob / draft_prob >= uniform_prob:
+                 # Accept.
+                 token_id = draft_token_id
++                accepted += 1
+             else:
+                 # Reject. Use recovered token.
+                 rejected = True
+@@ -797,6 +820,9 @@ def rejection_random_sample_kernel(
+                 output_token_ids_ptr + req_idx * (max_spec_len + 1) + pos, token_id
+             )
+ 
++    if accepted_counts_ptr is not None:
++        tl.store(accepted_counts_ptr + req_idx, accepted)
++
+     if not rejected:
+         # If all tokens are accepted, append the bonus token.
+         bonus_token_id = tl.load(bonus_token_ids_ptr + req_idx)
+diff --git a/vllm/v1/spec_decode/sparse_attn/attn_overrider/vegas.py b/vllm/v1/spec_decode/sparse_attn/attn_overrider/vegas.py
+index e36efb3bc..be258117f 100644
+--- a/vllm/v1/spec_decode/sparse_attn/attn_overrider/vegas.py
++++ b/vllm/v1/spec_decode/sparse_attn/attn_overrider/vegas.py
+@@ -1,11 +1,15 @@
+ # SPDX-License-Identifier: Apache-2.0
+ # SPDX-FileCopyrightText: Copyright contributors to the vLLM project
+ # Vegas: https://arxiv.org/abs/2602.07223
++import inspect
++import os
++
+ import torch
+ import triton
+ import triton.language as tl
+ 
+ from vllm.config import VllmConfig
++from vllm.logger import init_logger
+ from vllm.v1.spec_decode.sparse_attn.attn_overrider import BaseAttnOverrider
+ from vllm.v1.spec_decode.sparse_attn.attn_overrider.utils import (
+     varlen_reduce,
+@@ -82,7 +86,7 @@ class VegasAttnOverrider(BaseAttnOverrider):
+     #   "logit"  -> rank by raw (pre-softmax) attention scores.
+     #   "weight" -> rematerialize softmax attention weights, i.e.
+     #               exp(scale * score - lse), and rank by those.
+-    SCORE_MODE = "weight"
++    SCORE_MODE = "logit"
+ 
+     def __init__(
+         self,
+@@ -90,6 +94,34 @@ class VegasAttnOverrider(BaseAttnOverrider):
+         device: torch.device,
+     ):
+         super().__init__(vllm_config, device)
++        backend = os.environ.get("VEGAS_BACKEND", "auto")
++        if backend not in ("auto", "native", "portable"):
++            raise ValueError(f"Unknown VEGAS_BACKEND={backend}")
++        self.portable = backend == "portable" or (
++            backend == "auto" and torch.cuda.get_device_capability(device)[0] == 8)
++        init_logger(__name__).info(
++            "Vegas SCORE_MODE=%s, backend=%s, device SM%s%s",
++            self.SCORE_MODE, "portable (FA2 verify + Triton QK/draft + torch topk)"
++            if self.portable else "native modified FA3",
++            *torch.cuda.get_device_capability(device))
++        if self.portable:
++            from .utils.sm86 import reduce_logit_scores, request_topk
++            if self.SCORE_MODE != "logit":
++                raise ValueError("Portable Vegas supports raw logit mode only")
++            self._reduce = reduce_logit_scores
++            self._topk = request_topk
++        else:
++            if torch.cuda.get_device_capability(device)[0] != 9:
++                raise RuntimeError(
++                    "Native Vegas uses modified SM90 FA3; use the portable "
++                    "SM86 backend or port/build a backend for this GPU.")
++            if "scores" not in inspect.signature(
++                    BaseAttnOverrider._original_attn_func).parameters:
++                raise RuntimeError(
++                    "Native Vegas requires its modified FlashAttention "
++                    "scores= API; an upstream FA3/FA4 install is insufficient.")
++            self._reduce = varlen_reduce
++            self._topk = varlen_topk
+         parallel_config = vllm_config.parallel_config
+         self.block_size = vllm_config.cache_config.block_size
+         self.num_query_heads = \
+@@ -121,7 +153,7 @@ class VegasAttnOverrider(BaseAttnOverrider):
+         # large as calc_topk_workspace_size(batch, ...); a bigger one is fine
+         # (it reads/zeros only what it needs by batch, max_k). It is passed
+         # whole, no per-call slicing.
+-        topk_workspace_size = calc_topk_workspace_size(
++        topk_workspace_size = 0 if self.portable else calc_topk_workspace_size(
+             self.max_batch_size, self.max_model_len, self._topk_width
+         )
+         if topk_workspace_size <= self._attn_score_buffer.nbytes:
+@@ -160,6 +192,8 @@ class VegasAttnOverrider(BaseAttnOverrider):
+         # cached lookup. Best-effort: fall back to the built-in heuristic if it
+         # fails for any reason.
+         try:
++            if self.portable:
++                return  # No nvcc/CUB build or H100 tuning on the portable path.
+             autotune_path(
+                 max_len=self.max_model_len,
+                 max_batch_size=self.max_batch_size,
+@@ -234,6 +268,9 @@ class VegasAttnOverrider(BaseAttnOverrider):
+         kwargs["block_table"] = \
+             self._page_table[self.curr_layer, :self.batch_size]
+ 
++        if self.portable:
++            from .utils.sm86 import sparse_attention
++            return sparse_attention(*args, **kwargs)
+         return BaseAttnOverrider._original_attn_func(*args, **kwargs)
+ 
+     def _verify_attention(self, *args, **kwargs):
+@@ -270,7 +307,15 @@ class VegasAttnOverrider(BaseAttnOverrider):
+         # Collect per-query QK scores (first/last query) into the buffer.
+         # In weight mode also return the per-token log-sum-exp so
+         # the reduce kernel can rematerialize attention weights.
+-        kwargs["scores"] = self._attn_score_buffer[:self.batch_size]
++        if self.portable:
++            from .utils.sm86 import collect_raw_scores
++            collect_raw_scores(
++                *args, **kwargs,
++                scores=self._attn_score_buffer[:self.batch_size])
++        else:
++            if kwargs.get("fa_version") != 3:
++                raise RuntimeError("Native Vegas score collection requires modified FA3 dispatch")
++            kwargs["scores"] = self._attn_score_buffer[:self.batch_size]
+ 
+         cu_seqlens_q = kwargs["cu_seqlens_q"]
+         if self._use_weight:
+@@ -286,7 +331,7 @@ class VegasAttnOverrider(BaseAttnOverrider):
+             softmax_scale = 1.0
+ 
+         # Reduce scores/weights and get top-k indices for each request.
+-        varlen_reduce(
++        self._reduce(
+             x=self._attn_score_buffer[:self.batch_size],
+             valid_lens=self._topk_valid_lens[:self.batch_size],
+             reduce_entry=self._reduce_entry[:self.batch_size],
+@@ -296,7 +341,7 @@ class VegasAttnOverrider(BaseAttnOverrider):
+             softmax_scale=softmax_scale,
+             use_weight=self._use_weight,
+         )
+-        varlen_topk(
++        self._topk(
+             metric=self._reduced_score_buffer[:self.batch_size],
+             topks=self._topk_budget[:self.batch_size],
+             valid_lens=self._topk_valid_lens[:self.batch_size],
+diff --git a/vllm/v1/spec_decode/sparse_attn/proposer.py b/vllm/v1/spec_decode/sparse_attn/proposer.py
+index 414333538..9ef679468 100644
+--- a/vllm/v1/spec_decode/sparse_attn/proposer.py
++++ b/vllm/v1/spec_decode/sparse_attn/proposer.py
+@@ -98,7 +98,8 @@ class SparseAttnProposer:
+         self.hidden_size = vllm_config.model_config.get_hidden_size()
+ 
+         max_batch_size = vllm_config.scheduler_config.max_num_seqs
+-        self.token_arange_np = np.arange(max_batch_size)
++        # query_start_loc has batch_size + 1 entries, including at full batch.
++        self.token_arange_np = np.arange(max_batch_size + 1)
+ 
+         self.attn_metadata_builder: AttentionMetadataBuilder | None = None
+         self.attn_layer_names: list[str] = []
+@@ -193,7 +194,11 @@ class SparseAttnProposer:
+                 # Token counts are misaligned but batch order is the
+                 # same — use identity mapping via self.arange.
+                 reorder_mapping = self.arange[:batch_size]
+-            hidden_states = gather_draft_hidden_states(
++            gather = gather_draft_hidden_states
++            if getattr(self.attn_overrider, "portable", False):
++                from .attn_overrider.utils.sm86 import gather_hidden
++                gather = gather_hidden
++            hidden_states = gather(
+                 src=self._draft_hidden_states,
+                 cu_num_draft_tokens=cu_num_draft_tokens,
+                 total_tokens=total_tokens,

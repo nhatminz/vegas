@@ -1,0 +1,13 @@
+{
+  "baseline_json": "progress_baseline_codeelo_b8.json",
+  "vegas_json": "progress_vegas_codeelo_b8.json",
+  "gpu": "RTX 3090 SM86",
+  "baseline_inference": "PASS",
+  "vegas_inference": "PASS",
+  "warmup_measurement_profile_progress": "PASS",
+  "baseline_acceptance_applicability": "N/A (JSON null)",
+  "vegas_acceptance_rate": 0.9669811320754716,
+  "engine_and_nccl_cleanup": "PASS",
+  "same_prompt_hash": true,
+  "no_progress_and_print_json_compatibility": "PASS"
+}

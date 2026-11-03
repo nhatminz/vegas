@@ -1,0 +1,2 @@
+round,request_id,dataset_index,prompt_tokens,output_tokens,ttft_ms,prefill_service_ms,queue_ms,decode_service_ms,tpot_ms,prefill_forward_stream_ms
+0,1,0,265,64,101.2728214263916,100.98464787006378,0.009127892553806305,1344.6190729737282,21.343159888471877,50.074623107910156

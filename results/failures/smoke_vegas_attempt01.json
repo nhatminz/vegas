@@ -1,0 +1,8 @@
+{
+  "status": "FAIL",
+  "inference_completed": false,
+  "stage": "initialization",
+  "reason": "calc_topk_workspace_size invoked native CUB extension build, but /usr/local/cuda/bin/nvcc does not exist. Fixed by bypassing native workspace query in portable backend.",
+  "log": "results/logs/smoke_vegas_attempt01.log",
+  "recorded_after_attempt": true
+}

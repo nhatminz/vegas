@@ -1,0 +1,71 @@
+[
+  {
+    "name": "vllm_aime25_b8_l4096_n64_logprobs",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_baseline.sh",
+      "aime25",
+      "--batch-size",
+      "8",
+      "--max-model-len",
+      "4096",
+      "--max-new-tokens",
+      "64",
+      "--rounds",
+      "1",
+      "--output",
+      "results/vllm_aime25_b8_l4096_n64_logprobs",
+      "--logprobs",
+      "5",
+      "--no-profile-overhead"
+    ],
+    "returncode": 0,
+    "process_wall_s": 14.884583341889083
+  },
+  {
+    "name": "vegas_aime25_b8_l4096_n64_logprobs",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_vegas.sh",
+      "aime25",
+      "--batch-size",
+      "8",
+      "--max-model-len",
+      "4096",
+      "--max-new-tokens",
+      "64",
+      "--rounds",
+      "1",
+      "--output",
+      "results/vegas_aime25_b8_l4096_n64_logprobs",
+      "--logprobs",
+      "5",
+      "--no-profile-overhead"
+    ],
+    "returncode": 0,
+    "process_wall_s": 15.219941505230963
+  },
+  {
+    "name": "vegas_codeelo_b1_l4096_n64_random",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_vegas.sh",
+      "codeelo",
+      "--batch-size",
+      "1",
+      "--max-model-len",
+      "4096",
+      "--max-new-tokens",
+      "64",
+      "--rounds",
+      "1",
+      "--output",
+      "results/vegas_codeelo_b1_l4096_n64_random",
+      "--temperature",
+      "0.6",
+      "--top-p",
+      "0.95",
+      "--top-k",
+      "20"
+    ],
+    "returncode": 0,
+    "process_wall_s": 29.414760501123965
+  }
+]

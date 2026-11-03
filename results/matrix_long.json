@@ -1,0 +1,154 @@
+[
+  {
+    "name": "vllm_aime25_b8_l8192_n256",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_baseline.sh",
+      "aime25",
+      "--batch-size",
+      "8",
+      "--max-model-len",
+      "8192",
+      "--max-new-tokens",
+      "256",
+      "--rounds",
+      "3",
+      "--output",
+      "results/vllm_aime25_b8_l8192_n256"
+    ],
+    "returncode": 0,
+    "process_wall_s": 34.38045553676784
+  },
+  {
+    "name": "vegas_aime25_b8_l8192_n256",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_vegas.sh",
+      "aime25",
+      "--batch-size",
+      "8",
+      "--max-model-len",
+      "8192",
+      "--max-new-tokens",
+      "256",
+      "--rounds",
+      "3",
+      "--output",
+      "results/vegas_aime25_b8_l8192_n256"
+    ],
+    "returncode": 0,
+    "process_wall_s": 39.39788043219596
+  },
+  {
+    "name": "vllm_codeelo_b8_l8192_n256",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_baseline.sh",
+      "codeelo",
+      "--batch-size",
+      "8",
+      "--max-model-len",
+      "8192",
+      "--max-new-tokens",
+      "256",
+      "--rounds",
+      "3",
+      "--output",
+      "results/vllm_codeelo_b8_l8192_n256"
+    ],
+    "returncode": 0,
+    "process_wall_s": 37.44299794919789
+  },
+  {
+    "name": "vegas_codeelo_b8_l8192_n256",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_vegas.sh",
+      "codeelo",
+      "--batch-size",
+      "8",
+      "--max-model-len",
+      "8192",
+      "--max-new-tokens",
+      "256",
+      "--rounds",
+      "3",
+      "--output",
+      "results/vegas_codeelo_b8_l8192_n256"
+    ],
+    "returncode": 0,
+    "process_wall_s": 42.293176661245525
+  },
+  {
+    "name": "vllm_aime25_b16_l8192_n256",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_baseline.sh",
+      "aime25",
+      "--batch-size",
+      "16",
+      "--max-model-len",
+      "8192",
+      "--max-new-tokens",
+      "256",
+      "--rounds",
+      "3",
+      "--output",
+      "results/vllm_aime25_b16_l8192_n256"
+    ],
+    "returncode": 0,
+    "process_wall_s": 35.42384551279247
+  },
+  {
+    "name": "vegas_aime25_b16_l8192_n256",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_vegas.sh",
+      "aime25",
+      "--batch-size",
+      "16",
+      "--max-model-len",
+      "8192",
+      "--max-new-tokens",
+      "256",
+      "--rounds",
+      "3",
+      "--output",
+      "results/vegas_aime25_b16_l8192_n256"
+    ],
+    "returncode": 0,
+    "process_wall_s": 40.37485751789063
+  },
+  {
+    "name": "vllm_codeelo_b16_l8192_n256",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_baseline.sh",
+      "codeelo",
+      "--batch-size",
+      "16",
+      "--max-model-len",
+      "8192",
+      "--max-new-tokens",
+      "256",
+      "--rounds",
+      "3",
+      "--output",
+      "results/vllm_codeelo_b16_l8192_n256"
+    ],
+    "returncode": 0,
+    "process_wall_s": 40.111765215173364
+  },
+  {
+    "name": "vegas_codeelo_b16_l8192_n256",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_vegas.sh",
+      "codeelo",
+      "--batch-size",
+      "16",
+      "--max-model-len",
+      "8192",
+      "--max-new-tokens",
+      "256",
+      "--rounds",
+      "3",
+      "--output",
+      "results/vegas_codeelo_b16_l8192_n256"
+    ],
+    "returncode": 0,
+    "process_wall_s": 47.057209657505155
+  }
+]

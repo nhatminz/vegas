@@ -202,6 +202,8 @@ AGENTS.md
 
 # Results
 *.csv
+!results/*.csv
+!results/failures/*.csv
 
 # Python pickle files
 *.pkl
@@ -238,3 +240,11 @@ ep_kernels_workspace/
 vllm/grpc/vllm_engine_pb2.py
 vllm/grpc/vllm_engine_pb2_grpc.py
 vllm/grpc/vllm_engine_pb2.pyi
+
+.venv*/
+
+cache/
+
+*_cache/
+
+outputs/

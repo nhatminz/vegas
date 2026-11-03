@@ -1,0 +1,40 @@
+[
+  {
+    "name": "smoke_baseline",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_baseline.sh",
+      "aime25",
+      "--batch-size",
+      "1",
+      "--max-model-len",
+      "4096",
+      "--max-new-tokens",
+      "64",
+      "--rounds",
+      "1",
+      "--output",
+      "results/smoke_baseline"
+    ],
+    "returncode": 0,
+    "process_wall_s": 14.038337959907949
+  },
+  {
+    "name": "smoke_vegas",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_vegas.sh",
+      "aime25",
+      "--batch-size",
+      "1",
+      "--max-model-len",
+      "4096",
+      "--max-new-tokens",
+      "64",
+      "--rounds",
+      "1",
+      "--output",
+      "results/smoke_vegas"
+    ],
+    "returncode": 0,
+    "process_wall_s": 16.383261744864285
+  }
+]

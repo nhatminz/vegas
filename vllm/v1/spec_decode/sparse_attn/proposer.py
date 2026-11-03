@@ -98,7 +98,8 @@ class SparseAttnProposer:
         self.hidden_size = vllm_config.model_config.get_hidden_size()
 
         max_batch_size = vllm_config.scheduler_config.max_num_seqs
-        self.token_arange_np = np.arange(max_batch_size)
+        # query_start_loc has batch_size + 1 entries, including at full batch.
+        self.token_arange_np = np.arange(max_batch_size + 1)
 
         self.attn_metadata_builder: AttentionMetadataBuilder | None = None
         self.attn_layer_names: list[str] = []
@@ -193,7 +194,11 @@ class SparseAttnProposer:
                 # Token counts are misaligned but batch order is the
                 # same — use identity mapping via self.arange.
                 reorder_mapping = self.arange[:batch_size]
-            hidden_states = gather_draft_hidden_states(
+            gather = gather_draft_hidden_states
+            if getattr(self.attn_overrider, "portable", False):
+                from .attn_overrider.utils.sm86 import gather_hidden
+                gather = gather_hidden
+            hidden_states = gather(
                 src=self._draft_hidden_states,
                 cu_num_draft_tokens=cu_num_draft_tokens,
                 total_tokens=total_tokens,

@@ -1,0 +1,66 @@
+{
+  "git_commit": "7bf9d1edb8223307cff2089f855ca69cd094bc69",
+  "upstream_vllm_commit": "89a77b10846fd96273cce78d86d2556ea582d26e",
+  "modified_flash_attention_commit": "0c05c4b59b4a795f2c2add264fef094e758478e3",
+  "git_status": " M .gitignore\n M vllm/v1/sample/rejection_sampler.py\n M vllm/v1/spec_decode/sparse_attn/attn_overrider/vegas.py\n M vllm/v1/spec_decode/sparse_attn/proposer.py\n?? B200_MIGRATION_NOTES.md\n?? RUN_BENCHMARK.md\n?? benchmarks/benchmark_compare.py\n?? benchmarks/compare_data.py\n?? benchmarks/compare_measurement.py\n?? benchmarks/test_compare_kernels.py\n?? requirements/rtx3090.lock.txt\n?? results/\n?? scripts/\n?? vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/sm86.py\n",
+  "source_sha256": {
+    "benchmarks/compare_data.py": "f4dc8a0474b1d98c338c1f458f15087f3411c2fc9957a4d1dadc86dcb4396945",
+    "benchmarks/compare_measurement.py": "2ce83e70b85e7e8b84eb82e59ee243621187398c5192f92ed7be02f66750f924",
+    "benchmarks/benchmark_compare.py": "d7efc96e3d000c0b54b695f6cd7d0235fa5e9285ed2ed8a200ba933016f58b43",
+    "vllm/v1/spec_decode/sparse_attn/proposer.py": "b8bd35be0338cf063801eefae1d3d1367bedcdf393b53345388d843bdd0551d1",
+    "vllm/v1/spec_decode/sparse_attn/__init__.py": "32c3987eef717f391583e1e8c930022e569f7abc4751e3cbb15847eba3ca10d6",
+    "vllm/v1/spec_decode/sparse_attn/attn_overrider/streamingllm.py": "0be5781a732c0e83180f59c7ae76ab24b0c9be40614f98caa8e69d98ec4c0d83",
+    "vllm/v1/spec_decode/sparse_attn/attn_overrider/__init__.py": "3323585829e3e3375aaec80820ccbb4a70a77218326790062e436f17388840eb",
+    "vllm/v1/spec_decode/sparse_attn/attn_overrider/vegas.py": "02d36f288466afb1ac74b41b5e2e3f785c2a5932cfc2ec159dfdc55364125def",
+    "vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/sm86.py": "2479e2e3a4dfc00a1f6cd84b28679d16f2c86351eeb130f8e4730a922337c7f1",
+    "vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/__init__.py": "a8ed8f79dd003f1fba1710ec005e2bee5232757c6bfc4d652ee5fb0156848b44",
+    "vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/varlen_topk.py": "d1585a3fd658959d4ca14fd3cbe1a95f0cbd0e9ee990d9660d201052ddaed798",
+    "vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/varlen_reduce.py": "d3bae7f2d3eb94c92b90f58bf33e4326a0ee8114d666dd4b1ea16331a063a9e8",
+    "scripts/run_vegas.sh": "83018e544cdcae756146413048542970660ca5e0c71d04f54c7be6ec2fdd0c99",
+    "scripts/run_compare.sh": "1c777e19bfae8256e461d5fde165aa8fe9d9fa1966dc007634a8a56827dd698d",
+    "scripts/run_baseline.sh": "2b1ff250d7bb7c9d651fbfca23db73d5e7265a53c709e29479944c2233c7937a",
+    "vllm/v1/sample/rejection_sampler.py": "633f796934023ace65697d108ed275531691cc14236cc7d7bd4edbca68dfdddd"
+  },
+  "python": "3.12.12 (main, Nov 19 2025, 22:46:53) [Clang 21.1.4 ]",
+  "packages": {
+    "torch": "2.9.1",
+    "vllm": "0.16.0+precompiled",
+    "triton": "3.5.1",
+    "transformers": "4.57.6",
+    "datasets": "5.0.1",
+    "flash-attn": null,
+    "flashinfer-python": "0.6.3"
+  },
+  "vllm_import_path": "/mnt/hdd/nhatminh/SDLongContext/vegas/vllm/__init__.py",
+  "torch_cuda": "12.8",
+  "gpu": "NVIDIA GeForce RTX 3090",
+  "compute_capability": [
+    8,
+    6
+  ],
+  "gpu_memory_bytes": 25334251520,
+  "driver": "555.42.06",
+  "nvcc": null,
+  "triton": "3.5.1",
+  "torch_version": "2.9.1+cu128",
+  "flash_attention": {
+    "fa2_available": true,
+    "fa3_available": true,
+    "python_package_version": "2.7.2.post1",
+    "modified_fa3_built_or_used": false,
+    "actual_verify_version": 2,
+    "extension_source": "exact upstream vLLM precompiled wheel; unmodified FA2",
+    "vegas_backend": "portable"
+  },
+  "torch_native_arch_list": [
+    "sm_70",
+    "sm_75",
+    "sm_80",
+    "sm_86",
+    "sm_90",
+    "sm_100",
+    "sm_120"
+  ],
+  "system_nvcc_available": false,
+  "tested_gpu": "RTX 3090 SM86 only; B200 not tested"
+}

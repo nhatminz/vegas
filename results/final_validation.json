@@ -1,0 +1,30 @@
+{
+  "gpu": "RTX 3090 SM86",
+  "baseline_smoke": "PASS",
+  "vegas_smoke": "PASS",
+  "smoke_greedy_token_equality": true,
+  "gpu_kernel_tests": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "11",
+    "time": "6.051",
+    "timestamp": "2026-11-02T23:37:22.302111+07:00",
+    "hostname": "hmi"
+  },
+  "gpu_benchmark_measurements": 16,
+  "audited_fair_pairs": 8,
+  "all_primary_inference_pass": true,
+  "bf16_bitwise_equivalence_all_requests": false,
+  "fp16_probe_matched_requests": 8,
+  "fp16_probe_total_requests": 8,
+  "b200_tested": false,
+  "real_8k_prompt_end_to_end_tested": false,
+  "limitations": [
+    "Portable backend is slower than baseline in measured configurations.",
+    "BF16 request outputs are not bitwise equivalent in all paired runs; see target-logprob diagnostics.",
+    "End-to-end prompts were shorter than max_model_len; 8K raw-QK kernel shapes were tested separately.",
+    "Native modified FA3, CUDA graphs/async and B200 were not tested."
+  ]
+}

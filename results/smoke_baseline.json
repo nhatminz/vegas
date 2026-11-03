@@ -1,0 +1,379 @@
+{
+  "status": "PASS",
+  "timestamp_utc": "20261102T163747Z",
+  "config": {
+    "method": "vllm",
+    "dataset": "aime25",
+    "model": "/mnt/hdd/nhatminh/SpecDecode/models/Qwen3-4B",
+    "data_root": "/mnt/hdd/nhatminh/data",
+    "batch_size": 1,
+    "gamma": 4,
+    "sparsity_ratio": 0.07,
+    "min_kv_tokens": 256,
+    "max_model_len": 4096,
+    "max_new_tokens": 64,
+    "max_num_batched_tokens": 4096,
+    "gpu_memory_utilization": 0.8,
+    "dtype": "bfloat16",
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": -1,
+    "seed": 42,
+    "logprobs": 0,
+    "offset": 0,
+    "warmup_rounds": 1,
+    "rounds": 1,
+    "thinking": true,
+    "profile_overhead": true,
+    "output": "results/smoke_baseline"
+  },
+  "command": [
+    "benchmarks/benchmark_compare.py",
+    "--method",
+    "vllm",
+    "--dataset",
+    "aime25",
+    "--batch-size",
+    "1",
+    "--max-model-len",
+    "4096",
+    "--max-new-tokens",
+    "64",
+    "--rounds",
+    "1",
+    "--output",
+    "results/smoke_baseline"
+  ],
+  "environment": {
+    "git_commit": "7bf9d1edb8223307cff2089f855ca69cd094bc69",
+    "upstream_vllm_commit": "89a77b10846fd96273cce78d86d2556ea582d26e",
+    "modified_flash_attention_commit": "0c05c4b59b4a795f2c2add264fef094e758478e3",
+    "git_status": " M .gitignore\n M vllm/v1/sample/rejection_sampler.py\n M vllm/v1/spec_decode/sparse_attn/attn_overrider/vegas.py\n M vllm/v1/spec_decode/sparse_attn/proposer.py\n?? B200_MIGRATION_NOTES.md\n?? RUN_BENCHMARK.md\n?? benchmarks/benchmark_compare.py\n?? benchmarks/compare_data.py\n?? benchmarks/compare_measurement.py\n?? benchmarks/test_compare_kernels.py\n?? requirements/rtx3090.lock.txt\n?? results/\n?? scripts/\n?? vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/sm86.py\n",
+    "source_sha256": {
+      "benchmarks/compare_data.py": "f4dc8a0474b1d98c338c1f458f15087f3411c2fc9957a4d1dadc86dcb4396945",
+      "benchmarks/compare_measurement.py": "2ce83e70b85e7e8b84eb82e59ee243621187398c5192f92ed7be02f66750f924",
+      "benchmarks/benchmark_compare.py": "d7efc96e3d000c0b54b695f6cd7d0235fa5e9285ed2ed8a200ba933016f58b43",
+      "vllm/v1/spec_decode/sparse_attn/proposer.py": "b8bd35be0338cf063801eefae1d3d1367bedcdf393b53345388d843bdd0551d1",
+      "vllm/v1/spec_decode/sparse_attn/__init__.py": "32c3987eef717f391583e1e8c930022e569f7abc4751e3cbb15847eba3ca10d6",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/streamingllm.py": "0be5781a732c0e83180f59c7ae76ab24b0c9be40614f98caa8e69d98ec4c0d83",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/__init__.py": "3323585829e3e3375aaec80820ccbb4a70a77218326790062e436f17388840eb",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/vegas.py": "02d36f288466afb1ac74b41b5e2e3f785c2a5932cfc2ec159dfdc55364125def",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/sm86.py": "2479e2e3a4dfc00a1f6cd84b28679d16f2c86351eeb130f8e4730a922337c7f1",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/__init__.py": "a8ed8f79dd003f1fba1710ec005e2bee5232757c6bfc4d652ee5fb0156848b44",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/varlen_topk.py": "d1585a3fd658959d4ca14fd3cbe1a95f0cbd0e9ee990d9660d201052ddaed798",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/varlen_reduce.py": "d3bae7f2d3eb94c92b90f58bf33e4326a0ee8114d666dd4b1ea16331a063a9e8",
+      "scripts/run_vegas.sh": "83018e544cdcae756146413048542970660ca5e0c71d04f54c7be6ec2fdd0c99",
+      "scripts/run_compare.sh": "1c777e19bfae8256e461d5fde165aa8fe9d9fa1966dc007634a8a56827dd698d",
+      "scripts/run_baseline.sh": "2b1ff250d7bb7c9d651fbfca23db73d5e7265a53c709e29479944c2233c7937a",
+      "vllm/v1/sample/rejection_sampler.py": "633f796934023ace65697d108ed275531691cc14236cc7d7bd4edbca68dfdddd"
+    },
+    "python": "3.12.12 (main, Nov 19 2025, 22:46:53) [Clang 21.1.4 ]",
+    "packages": {
+      "torch": "2.9.1",
+      "vllm": "0.16.0+precompiled",
+      "triton": "3.5.1",
+      "transformers": "4.57.6",
+      "datasets": "5.0.1",
+      "flash-attn": null,
+      "flashinfer-python": "0.6.3"
+    },
+    "vllm_import_path": "/mnt/hdd/nhatminh/SDLongContext/vegas/vllm/__init__.py",
+    "torch_cuda": "12.8",
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "compute_capability": [
+      8,
+      6
+    ],
+    "gpu_memory_bytes": 25334251520,
+    "driver": "555.42.06",
+    "nvcc": null,
+    "triton": "3.5.1",
+    "torch_version": "2.9.1+cu128",
+    "flash_attention": {
+      "fa2_available": true,
+      "fa3_available": true,
+      "python_package_version": "2.7.2.post1",
+      "modified_fa3_built_or_used": false,
+      "actual_verify_version": 2,
+      "extension_source": "exact upstream vLLM precompiled wheel; unmodified FA2",
+      "vegas_backend": "portable"
+    }
+  },
+  "dataset": {
+    "file": "/mnt/hdd/nhatminh/data/aime25/raw/test.jsonl",
+    "sha256": "b4e273c02d3e7fe1b74b59eae768fc8230bfb0f79539890cb56f4361caac0331",
+    "rows": 30,
+    "schema": {
+      "problem": "str",
+      "answer": "int",
+      "id": "str"
+    },
+    "indices": [
+      0
+    ],
+    "ids": [
+      "0"
+    ],
+    "prompt_tokens": [
+      49
+    ],
+    "prompt_sha256": "7bfe7cd903251e8d38bc842080c25fc4c9ec6de8a985b0bafd3c77af4b5c1b6b",
+    "overlength_rows_skipped": 0,
+    "chat_template_sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8"
+  },
+  "model_files": {
+    "model-00001-of-00003.safetensors": {
+      "bytes": 3957900840,
+      "sha256": null
+    },
+    "gitattributes": {
+      "bytes": 1570,
+      "sha256": null
+    },
+    "model-00002-of-00003.safetensors": {
+      "bytes": 3987450520,
+      "sha256": null
+    },
+    "tokenizer_config.json": {
+      "bytes": 9732,
+      "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+    },
+    "tokenizer.json": {
+      "bytes": 11422654,
+      "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+    },
+    "generation_config.json": {
+      "bytes": 239,
+      "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+    },
+    "model-00003-of-00003.safetensors": {
+      "bytes": 99630640,
+      "sha256": null
+    },
+    "config.json": {
+      "bytes": 726,
+      "sha256": "8ba006f74fecfaaeb392872a60f4a480e7ec9860153d2e1b769ec81f9a147f8a"
+    },
+    "merges.txt": {
+      "bytes": 1671853,
+      "sha256": null
+    },
+    "LICENSE": {
+      "bytes": 11343,
+      "sha256": null
+    },
+    "README.md": {
+      "bytes": 16857,
+      "sha256": null
+    },
+    "model.safetensors.index.json": {
+      "bytes": 32819,
+      "sha256": "6dc0981b8829fead746441f68f38f24c5ca4a3a66351f652c26c6df0efc43ab2"
+    },
+    "vocab.json": {
+      "bytes": 2776833,
+      "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+    }
+  },
+  "engine": {
+    "speculative_config": null,
+    "score_mode": null,
+    "enforce_eager": true,
+    "async_scheduling": false,
+    "enable_prefix_caching": false,
+    "flash_attn_version": 2
+  },
+  "initialization_s": 4.870423790998757,
+  "batches": [
+    {
+      "round": 0,
+      "wall_s": 1.1279627587646246,
+      "output_tokens": 64,
+      "steady_decode_s": 1.1105080787092447,
+      "steady_decode_tokens": 63
+    }
+  ],
+  "requests": [
+    {
+      "round": 0,
+      "request_id": "1",
+      "dataset_index": 0,
+      "prompt_tokens": 49,
+      "output_tokens": 64,
+      "ttft_ms": 17.17090606689453,
+      "prefill_service_ms": 16.071191988885403,
+      "queue_ms": 0.010849907994270325,
+      "decode_service_ms": 1110.5080787092447,
+      "tpot_ms": 17.627112360464203,
+      "native_stats": {
+        "num_generation_tokens": 64,
+        "arrival_time": 1793637479.2188694,
+        "queued_ts": 7698626.369449646,
+        "scheduled_ts": 7698626.369460496,
+        "first_token_ts": 7698626.385531688,
+        "last_token_ts": 7698627.496039767,
+        "first_token_latency": 0.01717090606689453,
+        "is_corrupted": false
+      },
+      "prefill_forward_stream_ms": 14.443519592285156
+    }
+  ],
+  "outputs": [
+    {
+      "round": 0,
+      "dataset_index": 0,
+      "token_ids": [
+        151667,
+        198,
+        32313,
+        11,
+        773,
+        358,
+        1184,
+        311,
+        1477,
+        279,
+        2629,
+        315,
+        678,
+        7546,
+        23092,
+        400,
+        293,
+        861,
+        220,
+        24,
+        400,
+        369,
+        892,
+        400,
+        220,
+        16,
+        22,
+        880,
+        400,
+        374,
+        264,
+        49109,
+        315,
+        400,
+        220,
+        24,
+        22,
+        880,
+        8672,
+        88190,
+        11,
+        1077,
+        752,
+        1191,
+        553,
+        88646,
+        1128,
+        1493,
+        5109,
+        3076,
+        304,
+        2331,
+        400,
+        293,
+        400,
+        382,
+        5338,
+        11,
+        400,
+        220,
+        16,
+        22,
+        880,
+        400
+      ],
+      "text": "<think>\nOkay, so I need to find the sum of all integer bases $ b > 9 $ for which $ 17_b $ is a divisor of $ 97_b $. Hmm, let me start by recalling what these numbers mean in base $ b $.\n\nFirst, $ 17_b $"
+    }
+  ],
+  "instrumentation": {
+    "stream_spans": {
+      "target_forward": {
+        "total_ms": 1022.6896591186523,
+        "calls": 64
+      },
+      "target_prefill_forward": {
+        "total_ms": 14.443519592285156,
+        "calls": 1
+      },
+      "target_decode_forward": {
+        "total_ms": 1008.2461395263672,
+        "calls": 63
+      }
+    },
+    "proposed_draft_tokens": 0,
+    "accepted_draft_tokens": 0,
+    "request_verification_iterations": 0,
+    "batch_verification_iterations": 0,
+    "acceptance_rate": null,
+    "accepted_tokens_per_verification": null,
+    "verification_counters": [],
+    "selection_samples": [],
+    "raw_qk_last_query_head0_first16": null,
+    "prefill_forward_ms_by_request": {
+      "1": 14.443519592285156
+    }
+  },
+  "metrics": {
+    "e2e_tokens_per_s": 56.7394619216813,
+    "decode_only_tokens_per_s": 56.73078945380169,
+    "acceptance_rate": null,
+    "accepted_tokens_per_verification": null,
+    "proposed_draft_tokens": null,
+    "accepted_draft_tokens": null,
+    "request_verification_iterations": null,
+    "prefill_service_ms_per_request": 16.071191988885403,
+    "prefill_forward_stream_ms_per_request": 14.443519592285156,
+    "ttft_ms_per_request": 17.17090606689453,
+    "tpot_ms": 17.627112360464203,
+    "peak_vram_device_mib": 19906.0625,
+    "peak_torch_allocated_mib": 19007.11181640625,
+    "peak_torch_reserved_mib": 19084.0,
+    "profile_draft_ms_per_call": null,
+    "profile_target_decode_forward_ms_per_call": 15.969280530535986,
+    "profile_rejection_sampler_ms_per_call": null,
+    "profile_logit_collection_ms_per_call": null,
+    "profile_score_reduction_ms_per_call": null,
+    "profile_kv_topk_ms_per_call": null,
+    "profile_draft_slot_mapping_ms_per_call": null
+  },
+  "metric_notes": {
+    "e2e": "Output tokens / measured generate wall time. Model load, tokenization and warmup excluded; scheduling, prefill, decode included.",
+    "decode_only": "Emission tokens strictly after all requests have first tokens / time from latest first-token timestamp to last emission; sum across rounds.",
+    "prefill_service": "Per-request native scheduled-to-first-emission service span; includes sampling and initial Vegas draft; queue is excluded.",
+    "prefill_forward_stream": "CUDA-event target-forward spans for each request while its prompt is processed; shared batch service time is NOT divided by batch.",
+    "tpot": "Per-request (last emission - first emission) / (output tokens - 1); speculative multi-token bursts are amortized, not individual token arrival intervals.",
+    "overhead": "Nested CUDA stream spans include launch gaps. target_forward includes collection/reduce/topk; draft includes slot mapping. Rejection excludes recomputed draft probabilities; sampling_and_draft_probs includes them. Do not sum overlapping spans.",
+    "acceptance": "Direct counters in greedy/random rejection kernel accept branches, before max_tokens/EOS truncation. Denominator is drafts actually passed to verification; unused final drafts excluded. Accepted tokens per verification is per REQUEST iteration, excludes recovered/bonus tokens; batch iteration count reported separately.",
+    "memory": "Peak total device NVML sampled every 10ms during measurement, includes display/allocator/KV reservation. PyTorch peaks separately reported.",
+    "limits": "Eager, synchronous, single GPU; no penalties/bad words/custom logits processors. Dataset benchmark measures speed, not task accuracy."
+  },
+  "overhead_profile": {
+    "separate_round": true,
+    "wall_s": 1.125057678669691,
+    "stream_spans": {
+      "target_forward": {
+        "total_ms": 1020.7547216415405,
+        "calls": 64
+      },
+      "target_prefill_forward": {
+        "total_ms": 14.690048217773438,
+        "calls": 1
+      },
+      "sampling_and_draft_probs": {
+        "total_ms": 1.0768960025161505,
+        "calls": 64
+      },
+      "target_decode_forward": {
+        "total_ms": 1006.0646734237671,
+        "calls": 63
+      }
+    },
+    "note": "Separate profiled batch, excluded from primary metrics; event overhead can inflate spans."
+  }
+}

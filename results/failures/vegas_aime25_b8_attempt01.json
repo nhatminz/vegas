@@ -1,0 +1,152 @@
+{
+  "status": "FAIL",
+  "timestamp_utc": "20261102T161252Z",
+  "config": {
+    "method": "vegas",
+    "dataset": "aime25",
+    "model": "/mnt/hdd/nhatminh/SpecDecode/models/Qwen3-4B",
+    "data_root": "/mnt/hdd/nhatminh/data",
+    "batch_size": 8,
+    "gamma": 4,
+    "sparsity_ratio": 0.07,
+    "min_kv_tokens": 256,
+    "max_model_len": 4096,
+    "max_new_tokens": 64,
+    "max_num_batched_tokens": 4096,
+    "gpu_memory_utilization": 0.8,
+    "dtype": "bfloat16",
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": -1,
+    "seed": 42,
+    "offset": 0,
+    "warmup_rounds": 1,
+    "rounds": 3,
+    "thinking": true,
+    "profile_overhead": true,
+    "output": "results/vegas_aime25_b8_l4096_n64"
+  },
+  "command": [
+    "benchmarks/benchmark_compare.py",
+    "--method",
+    "vegas",
+    "--dataset",
+    "aime25",
+    "--batch-size",
+    "8",
+    "--output",
+    "results/vegas_aime25_b8_l4096_n64"
+  ],
+  "environment": {
+    "git_commit": "7bf9d1edb8223307cff2089f855ca69cd094bc69",
+    "upstream_vllm_commit": "89a77b10846fd96273cce78d86d2556ea582d26e",
+    "modified_flash_attention_commit": "0c05c4b59b4a795f2c2add264fef094e758478e3",
+    "git_status": " M vllm/v1/sample/rejection_sampler.py\n M vllm/v1/spec_decode/sparse_attn/attn_overrider/vegas.py\n M vllm/v1/spec_decode/sparse_attn/proposer.py\n?? benchmarks/benchmark_compare.py\n?? benchmarks/compare_data.py\n?? benchmarks/compare_measurement.py\n?? benchmarks/test_compare_kernels.py\n?? requirements/rtx3090.lock.txt\n?? results/\n?? scripts/\n?? vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/sm86.py\n",
+    "source_sha256": {
+      "benchmarks/compare_data.py": "f4dc8a0474b1d98c338c1f458f15087f3411c2fc9957a4d1dadc86dcb4396945",
+      "benchmarks/compare_measurement.py": "09a597a658d41b18ec9301a7eda67adef3ab0f17602c2e6b8f7d6cec7acf73da",
+      "benchmarks/benchmark_compare.py": "896471536578b68830de9992bdb03633ad73cf4ce90319834560c465387f6dff",
+      "vllm/v1/spec_decode/sparse_attn/proposer.py": "3e440902aeacf151a633ac54778258b00024d06344635459410745d40c5ccddd",
+      "vllm/v1/spec_decode/sparse_attn/__init__.py": "32c3987eef717f391583e1e8c930022e569f7abc4751e3cbb15847eba3ca10d6",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/streamingllm.py": "0be5781a732c0e83180f59c7ae76ab24b0c9be40614f98caa8e69d98ec4c0d83",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/__init__.py": "3323585829e3e3375aaec80820ccbb4a70a77218326790062e436f17388840eb",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/vegas.py": "5ff281aae234b03a745821f7f97c504bca2b73424251b7cd882dbe64441d8990",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/sm86.py": "44c7b9fad5814f40cf5da634ec94216c91224c311c1f5a26df7d85609925962b",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/__init__.py": "a8ed8f79dd003f1fba1710ec005e2bee5232757c6bfc4d652ee5fb0156848b44",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/varlen_topk.py": "d1585a3fd658959d4ca14fd3cbe1a95f0cbd0e9ee990d9660d201052ddaed798",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/varlen_reduce.py": "d3bae7f2d3eb94c92b90f58bf33e4326a0ee8114d666dd4b1ea16331a063a9e8",
+      "scripts/run_vegas.sh": "83018e544cdcae756146413048542970660ca5e0c71d04f54c7be6ec2fdd0c99",
+      "scripts/run_compare.sh": "1c777e19bfae8256e461d5fde165aa8fe9d9fa1966dc007634a8a56827dd698d",
+      "scripts/run_baseline.sh": "2b1ff250d7bb7c9d651fbfca23db73d5e7265a53c709e29479944c2233c7937a",
+      "vllm/v1/sample/rejection_sampler.py": "633f796934023ace65697d108ed275531691cc14236cc7d7bd4edbca68dfdddd"
+    },
+    "python": "3.12.12 (main, Nov 19 2025, 22:46:53) [Clang 21.1.4 ]",
+    "packages": {
+      "torch": "2.9.1",
+      "vllm": "0.16.0+precompiled",
+      "triton": "3.5.1",
+      "transformers": "4.57.6",
+      "datasets": "5.0.1",
+      "flash-attn": null,
+      "flashinfer-python": "0.6.3"
+    },
+    "vllm_import_path": "/mnt/hdd/nhatminh/SDLongContext/vegas/vllm/__init__.py",
+    "torch_cuda": "12.8",
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "compute_capability": [
+      8,
+      6
+    ],
+    "gpu_memory_bytes": 25334251520,
+    "driver": "555.42.06",
+    "nvcc": null,
+    "triton": "3.5.1",
+    "flash_attention": {
+      "fa2_available": true,
+      "fa3_available": true,
+      "actual_verify_version": 2,
+      "extension_source": "exact upstream vLLM precompiled wheel; unmodified FA2",
+      "vegas_backend": "portable"
+    }
+  },
+  "dataset": {
+    "file": "/mnt/hdd/nhatminh/data/aime25/raw/test.jsonl",
+    "sha256": "b4e273c02d3e7fe1b74b59eae768fc8230bfb0f79539890cb56f4361caac0331",
+    "rows": 30,
+    "schema": {
+      "problem": "str",
+      "answer": "int",
+      "id": "str"
+    },
+    "indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "ids": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7"
+    ],
+    "prompt_tokens": [
+      49,
+      178,
+      133,
+      76,
+      103,
+      101,
+      163,
+      140
+    ],
+    "prompt_sha256": "e5eb848b608614fa68e1029ef660b29205ae582297730ce7af47304381d343f9",
+    "overlength_rows_skipped": 0,
+    "chat_template_sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8"
+  },
+  "engine": {
+    "speculative_config": {
+      "method": "sparse_attn",
+      "num_speculative_tokens": 4,
+      "sparse_attn_algorithm": "vegas",
+      "sparse_attn_ratio": 0.07,
+      "sparse_attn_min_tokens": 256
+    },
+    "score_mode": "logit",
+    "enforce_eager": true,
+    "async_scheduling": false,
+    "enable_prefix_caching": false,
+    "flash_attn_version": 2
+  },
+  "initialization_s": 5.68747029080987,
+  "error": "RuntimeError(\"Error building extension 'gather_hs_cuda': [1/3] /usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output cuda.cuda.o.d -DTORCH_EXTENSION_NAME=gather_hs_cuda -DTORCH_API_INCLUDE_EXTENSION_H -isystem /mnt/hdd/nhatminh/SDLongContext/vegas/.venv/lib/python3.12/site-packages/torch/include -isystem /mnt/hdd/nhatminh/SDLongContext/vegas/.venv/lib/python3.12/site-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda/include -isystem /home/hmi/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/include/python3.12 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_86,code=sm_86 --compiler-options '-fPIC' -O3 --use_fast_math -std=c++17 -c /home/hmi/.cache/torch_extensions/py312_cu128/gather_hs_cuda/cuda.cu -o cuda.cuda.o \\nFAILED: cuda.cuda.o \\n/usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output cuda.cuda.o.d -DTORCH_EXTENSION_NAME=gather_hs_cuda -DTORCH_API_INCLUDE_EXTENSION_H -isystem /mnt/hdd/nhatminh/SDLongContext/vegas/.venv/lib/python3.12/site-packages/torch/include -isystem /mnt/hdd/nhatminh/SDLongContext/vegas/.venv/lib/python3.12/site-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda/include -isystem /home/hmi/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/include/python3.12 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_86,code=sm_86 --compiler-options '-fPIC' -O3 --use_fast_math -std=c++17 -c /home/hmi/.cache/torch_extensions/py312_cu128/gather_hs_cuda/cuda.cu -o cuda.cuda.o \\n/bin/sh: 1: /usr/local/cuda/bin/nvcc: not found\\n[2/3] c++ -MMD -MF main.o.d -DTORCH_EXTENSION_NAME=gather_hs_cuda -DTORCH_API_INCLUDE_EXTENSION_H -isystem /mnt/hdd/nhatminh/SDLongContext/vegas/.venv/lib/python3.12/site-packages/torch/include -isystem /mnt/hdd/nhatminh/SDLongContext/vegas/.venv/lib/python3.12/site-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda/include -isystem /home/hmi/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/include/python3.12 -fPIC -std=c++17 -c /home/hmi/.cache/torch_extensions/py312_cu128/gather_hs_cuda/main.cpp -o main.o \\nninja: build stopped: subcommand failed.\\n\")",
+  "traceback": "Traceback (most recent call last):\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/.venv/lib/python3.12/site-packages/torch/utils/cpp_extension.py\", line 2597, in _run_ninja_build\n    subprocess.run(\n  File \"/home/hmi/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/subprocess.py\", line 571, in run\n    raise CalledProcessError(retcode, process.args,\nsubprocess.CalledProcessError: Command '['ninja', '-v']' returned non-zero exit status 1.\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/benchmarks/benchmark_compare.py\", line 252, in main\n    run(a, result)\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/benchmarks/benchmark_compare.py\", line 152, in run\n    llm.generate(prompts, params, use_tqdm=False)\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/vllm/entrypoints/llm.py\", line 449, in generate\n    outputs = self._run_completion(\n              ^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/vllm/entrypoints/llm.py\", line 1760, in _run_completion\n    return self._run_engine(use_tqdm=use_tqdm)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/vllm/entrypoints/llm.py\", line 1919, in _run_engine\n    step_outputs = self.llm_engine.step()\n                   ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/vllm/v1/engine/llm_engine.py\", line 294, in step\n    outputs = self.engine_core.get_output()\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/vllm/v1/engine/core_client.py\", line 280, in get_output\n    outputs, model_executed = self.engine_core.step_fn()\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/vllm/v1/engine/core.py\", line 413, in step\n    model_output = self.model_executor.sample_tokens(grammar_output)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/vllm/v1/executor/uniproc_executor.py\", line 110, in sample_tokens\n    return self.collective_rpc(\n           ^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/vllm/v1/executor/uniproc_executor.py\", line 75, in collective_rpc\n    result = run_method(self.driver_worker, method, args, kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/vllm/v1/serial_utils.py\", line 459, in run_method\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py\", line 120, in decorate_context\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/vllm/v1/worker/gpu_worker.py\", line 601, in sample_tokens\n    return self.model_runner.sample_tokens(grammar_output)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py\", line 120, in decorate_context\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/vllm/v1/worker/gpu_model_runner.py\", line 3677, in sample_tokens\n    sampler_output = self._sample(logits, spec_decode_metadata)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/benchmarks/compare_measurement.py\", line 36, in wrapper\n    return fn(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/vllm/v1/worker/gpu_model_runner.py\", line 2884, in _sample\n    (self.drafter.get_draft_probs(\n     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/vllm/v1/spec_decode/sparse_attn/proposer.py\", line 197, in get_draft_probs\n    hidden_states = gather_draft_hidden_states(\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/vllm/v1/spec_decode/utils.py\", line 497, in gather_draft_hidden_states\n    mod = _get_gather_cuda_module()\n          ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/vllm/v1/spec_decode/utils.py\", line 462, in _get_gather_cuda_module\n    return load_inline(\n           ^^^^^^^^^^^^\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/.venv/lib/python3.12/site-packages/torch/utils/cpp_extension.py\", line 2051, in load_inline\n    return _jit_compile(\n           ^^^^^^^^^^^^^\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/.venv/lib/python3.12/site-packages/torch/utils/cpp_extension.py\", line 2134, in _jit_compile\n    _write_ninja_file_and_build_library(\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/.venv/lib/python3.12/site-packages/torch/utils/cpp_extension.py\", line 2286, in _write_ninja_file_and_build_library\n    _run_ninja_build(\n  File \"/mnt/hdd/nhatminh/SDLongContext/vegas/.venv/lib/python3.12/site-packages/torch/utils/cpp_extension.py\", line 2614, in _run_ninja_build\n    raise RuntimeError(message) from e\nRuntimeError: Error building extension 'gather_hs_cuda': [1/3] /usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output cuda.cuda.o.d -DTORCH_EXTENSION_NAME=gather_hs_cuda -DTORCH_API_INCLUDE_EXTENSION_H -isystem /mnt/hdd/nhatminh/SDLongContext/vegas/.venv/lib/python3.12/site-packages/torch/include -isystem /mnt/hdd/nhatminh/SDLongContext/vegas/.venv/lib/python3.12/site-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda/include -isystem /home/hmi/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/include/python3.12 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_86,code=sm_86 --compiler-options '-fPIC' -O3 --use_fast_math -std=c++17 -c /home/hmi/.cache/torch_extensions/py312_cu128/gather_hs_cuda/cuda.cu -o cuda.cuda.o \nFAILED: cuda.cuda.o \n/usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output cuda.cuda.o.d -DTORCH_EXTENSION_NAME=gather_hs_cuda -DTORCH_API_INCLUDE_EXTENSION_H -isystem /mnt/hdd/nhatminh/SDLongContext/vegas/.venv/lib/python3.12/site-packages/torch/include -isystem /mnt/hdd/nhatminh/SDLongContext/vegas/.venv/lib/python3.12/site-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda/include -isystem /home/hmi/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/include/python3.12 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_86,code=sm_86 --compiler-options '-fPIC' -O3 --use_fast_math -std=c++17 -c /home/hmi/.cache/torch_extensions/py312_cu128/gather_hs_cuda/cuda.cu -o cuda.cuda.o \n/bin/sh: 1: /usr/local/cuda/bin/nvcc: not found\n[2/3] c++ -MMD -MF main.o.d -DTORCH_EXTENSION_NAME=gather_hs_cuda -DTORCH_API_INCLUDE_EXTENSION_H -isystem /mnt/hdd/nhatminh/SDLongContext/vegas/.venv/lib/python3.12/site-packages/torch/include -isystem /mnt/hdd/nhatminh/SDLongContext/vegas/.venv/lib/python3.12/site-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda/include -isystem /home/hmi/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/include/python3.12 -fPIC -std=c++17 -c /home/hmi/.cache/torch_extensions/py312_cu128/gather_hs_cuda/main.cpp -o main.o \nninja: build stopped: subcommand failed.\n\n"
+}

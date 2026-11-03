@@ -1,0 +1,43 @@
+{
+  "token_equality": false,
+  "matched_requests": 4,
+  "total_requests": 8,
+  "findings": [
+    {
+      "dataset_index": 2,
+      "first_mismatch_position": 48,
+      "baseline_token": " and",
+      "vegas_token": " the",
+      "baseline_margin": 0.25,
+      "vegas_margin": 0.0,
+      "max_common_logprob_delta": 0.13094139099121094
+    },
+    {
+      "dataset_index": 4,
+      "first_mismatch_position": 60,
+      "baseline_token": ".\n\n",
+      "vegas_token": " and",
+      "baseline_margin": 0.5,
+      "vegas_margin": 0.0,
+      "max_common_logprob_delta": 0.3449068069458008
+    },
+    {
+      "dataset_index": 6,
+      "first_mismatch_position": 43,
+      "baseline_token": " two",
+      "vegas_token": " words",
+      "baseline_margin": 0.0,
+      "vegas_margin": 0.25,
+      "max_common_logprob_delta": 0.13290977478027344
+    },
+    {
+      "dataset_index": 7,
+      "first_mismatch_position": 51,
+      "baseline_token": "'s",
+      "vegas_token": " values",
+      "baseline_margin": 0.0,
+      "vegas_margin": 0.25,
+      "max_common_logprob_delta": 0.13367408514022827
+    }
+  ]
+}

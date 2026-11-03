@@ -1,0 +1,688 @@
+{
+  "status": "PASS",
+  "timestamp_utc": "20261102T162249Z",
+  "config": {
+    "method": "vegas",
+    "dataset": "codeelo",
+    "model": "/mnt/hdd/nhatminh/SpecDecode/models/Qwen3-4B",
+    "data_root": "/mnt/hdd/nhatminh/data",
+    "batch_size": 1,
+    "gamma": 4,
+    "sparsity_ratio": 0.07,
+    "min_kv_tokens": 256,
+    "max_model_len": 4096,
+    "max_new_tokens": 64,
+    "max_num_batched_tokens": 4096,
+    "gpu_memory_utilization": 0.8,
+    "dtype": "bfloat16",
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "seed": 42,
+    "logprobs": 0,
+    "offset": 0,
+    "warmup_rounds": 1,
+    "rounds": 1,
+    "thinking": true,
+    "profile_overhead": true,
+    "output": "results/vegas_codeelo_b1_l4096_n64_random"
+  },
+  "command": [
+    "benchmarks/benchmark_compare.py",
+    "--method",
+    "vegas",
+    "--dataset",
+    "codeelo",
+    "--batch-size",
+    "1",
+    "--max-model-len",
+    "4096",
+    "--max-new-tokens",
+    "64",
+    "--rounds",
+    "1",
+    "--output",
+    "results/vegas_codeelo_b1_l4096_n64_random",
+    "--temperature",
+    "0.6",
+    "--top-p",
+    "0.95",
+    "--top-k",
+    "20"
+  ],
+  "environment": {
+    "git_commit": "7bf9d1edb8223307cff2089f855ca69cd094bc69",
+    "upstream_vllm_commit": "89a77b10846fd96273cce78d86d2556ea582d26e",
+    "modified_flash_attention_commit": "0c05c4b59b4a795f2c2add264fef094e758478e3",
+    "git_status": " M vllm/v1/sample/rejection_sampler.py\n M vllm/v1/spec_decode/sparse_attn/attn_overrider/vegas.py\n M vllm/v1/spec_decode/sparse_attn/proposer.py\n?? B200_MIGRATION_NOTES.md\n?? benchmarks/benchmark_compare.py\n?? benchmarks/compare_data.py\n?? benchmarks/compare_measurement.py\n?? benchmarks/test_compare_kernels.py\n?? requirements/rtx3090.lock.txt\n?? results/\n?? scripts/\n?? vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/sm86.py\n",
+    "source_sha256": {
+      "benchmarks/compare_data.py": "f4dc8a0474b1d98c338c1f458f15087f3411c2fc9957a4d1dadc86dcb4396945",
+      "benchmarks/compare_measurement.py": "5cf3f74e34c8ca0fea3eb84c73d7845629962ef9ff5393485e2760145f99221b",
+      "benchmarks/benchmark_compare.py": "126c4e676de142ca5eb4e4573ce08f19c45b8673085f30d11a65b3236c842581",
+      "vllm/v1/spec_decode/sparse_attn/proposer.py": "b8bd35be0338cf063801eefae1d3d1367bedcdf393b53345388d843bdd0551d1",
+      "vllm/v1/spec_decode/sparse_attn/__init__.py": "32c3987eef717f391583e1e8c930022e569f7abc4751e3cbb15847eba3ca10d6",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/streamingllm.py": "0be5781a732c0e83180f59c7ae76ab24b0c9be40614f98caa8e69d98ec4c0d83",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/__init__.py": "3323585829e3e3375aaec80820ccbb4a70a77218326790062e436f17388840eb",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/vegas.py": "5ff281aae234b03a745821f7f97c504bca2b73424251b7cd882dbe64441d8990",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/sm86.py": "2479e2e3a4dfc00a1f6cd84b28679d16f2c86351eeb130f8e4730a922337c7f1",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/__init__.py": "a8ed8f79dd003f1fba1710ec005e2bee5232757c6bfc4d652ee5fb0156848b44",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/varlen_topk.py": "d1585a3fd658959d4ca14fd3cbe1a95f0cbd0e9ee990d9660d201052ddaed798",
+      "vllm/v1/spec_decode/sparse_attn/attn_overrider/utils/varlen_reduce.py": "d3bae7f2d3eb94c92b90f58bf33e4326a0ee8114d666dd4b1ea16331a063a9e8",
+      "scripts/run_vegas.sh": "83018e544cdcae756146413048542970660ca5e0c71d04f54c7be6ec2fdd0c99",
+      "scripts/run_compare.sh": "1c777e19bfae8256e461d5fde165aa8fe9d9fa1966dc007634a8a56827dd698d",
+      "scripts/run_baseline.sh": "2b1ff250d7bb7c9d651fbfca23db73d5e7265a53c709e29479944c2233c7937a",
+      "vllm/v1/sample/rejection_sampler.py": "633f796934023ace65697d108ed275531691cc14236cc7d7bd4edbca68dfdddd"
+    },
+    "python": "3.12.12 (main, Nov 19 2025, 22:46:53) [Clang 21.1.4 ]",
+    "packages": {
+      "torch": "2.9.1",
+      "vllm": "0.16.0+precompiled",
+      "triton": "3.5.1",
+      "transformers": "4.57.6",
+      "datasets": "5.0.1",
+      "flash-attn": null,
+      "flashinfer-python": "0.6.3"
+    },
+    "vllm_import_path": "/mnt/hdd/nhatminh/SDLongContext/vegas/vllm/__init__.py",
+    "torch_cuda": "12.8",
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "compute_capability": [
+      8,
+      6
+    ],
+    "gpu_memory_bytes": 25334251520,
+    "driver": "555.42.06",
+    "nvcc": null,
+    "triton": "3.5.1",
+    "torch_version": "2.9.1+cu128",
+    "flash_attention": {
+      "fa2_available": true,
+      "fa3_available": true,
+      "python_package_version": "2.7.2.post1",
+      "modified_fa3_built_or_used": false,
+      "actual_verify_version": 2,
+      "extension_source": "exact upstream vLLM precompiled wheel; unmodified FA2",
+      "vegas_backend": "portable"
+    }
+  },
+  "dataset": {
+    "file": "/mnt/hdd/nhatminh/data/codeelo/raw/test.json",
+    "sha256": "217a19639a30b8f5028a7d6d246781957dc76c028a86f6a994d69f8e0a068c70",
+    "rows": 408,
+    "schema": {
+      "problem_id": "str",
+      "url": "str",
+      "title": "str",
+      "rating": "int",
+      "tags": "list",
+      "div": "str",
+      "time_limit_ms": "int",
+      "memory_limit_mb": "int",
+      "description": "str",
+      "input": "str",
+      "output": "str",
+      "interaction": "str",
+      "examples": "list",
+      "note": "str"
+    },
+    "indices": [
+      0
+    ],
+    "ids": [
+      "1971A"
+    ],
+    "prompt_tokens": [
+      265
+    ],
+    "prompt_sha256": "63eb5ebe0cc3f880c92e978a5adfbf072060c891dcb92da319d4772ca2f75419",
+    "overlength_rows_skipped": 0,
+    "chat_template_sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8"
+  },
+  "model_files": {
+    "model-00001-of-00003.safetensors": {
+      "bytes": 3957900840,
+      "sha256": null
+    },
+    "gitattributes": {
+      "bytes": 1570,
+      "sha256": null
+    },
+    "model-00002-of-00003.safetensors": {
+      "bytes": 3987450520,
+      "sha256": null
+    },
+    "tokenizer_config.json": {
+      "bytes": 9732,
+      "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+    },
+    "tokenizer.json": {
+      "bytes": 11422654,
+      "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+    },
+    "generation_config.json": {
+      "bytes": 239,
+      "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+    },
+    "model-00003-of-00003.safetensors": {
+      "bytes": 99630640,
+      "sha256": null
+    },
+    "config.json": {
+      "bytes": 726,
+      "sha256": "8ba006f74fecfaaeb392872a60f4a480e7ec9860153d2e1b769ec81f9a147f8a"
+    },
+    "merges.txt": {
+      "bytes": 1671853,
+      "sha256": null
+    },
+    "LICENSE": {
+      "bytes": 11343,
+      "sha256": null
+    },
+    "README.md": {
+      "bytes": 16857,
+      "sha256": null
+    },
+    "model.safetensors.index.json": {
+      "bytes": 32819,
+      "sha256": "6dc0981b8829fead746441f68f38f24c5ca4a3a66351f652c26c6df0efc43ab2"
+    },
+    "vocab.json": {
+      "bytes": 2776833,
+      "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+    }
+  },
+  "engine": {
+    "speculative_config": {
+      "method": "sparse_attn",
+      "num_speculative_tokens": 4,
+      "sparse_attn_algorithm": "vegas",
+      "sparse_attn_ratio": 0.07,
+      "sparse_attn_min_tokens": 256
+    },
+    "score_mode": "logit",
+    "enforce_eager": true,
+    "async_scheduling": false,
+    "enable_prefix_caching": false,
+    "flash_attn_version": 2
+  },
+  "initialization_s": 5.5981034794822335,
+  "batches": [
+    {
+      "round": 0,
+      "wall_s": 1.4462274899706244,
+      "output_tokens": 64,
+      "steady_decode_s": 1.3446190729737282,
+      "steady_decode_tokens": 63
+    }
+  ],
+  "requests": [
+    {
+      "round": 0,
+      "request_id": "1",
+      "dataset_index": 0,
+      "prompt_tokens": 265,
+      "output_tokens": 64,
+      "ttft_ms": 101.2728214263916,
+      "prefill_service_ms": 100.98464787006378,
+      "queue_ms": 0.009127892553806305,
+      "decode_service_ms": 1344.6190729737282,
+      "tpot_ms": 21.343159888471877,
+      "native_stats": {
+        "num_generation_tokens": 64,
+        "arrival_time": 1793636595.7692444,
+        "queued_ts": 7697742.918980441,
+        "scheduled_ts": 7697742.918989569,
+        "first_token_ts": 7697743.019974217,
+        "last_token_ts": 7697744.36459329,
+        "first_token_latency": 0.1012728214263916,
+        "is_corrupted": false
+      },
+      "prefill_forward_stream_ms": 50.074623107910156
+    }
+  ],
+  "outputs": [
+    {
+      "round": 0,
+      "dataset_index": 0,
+      "token_ids": [
+        151667,
+        198,
+        32313,
+        11,
+        358,
+        1184,
+        311,
+        11625,
+        419,
+        15473,
+        3491,
+        13,
+        6771,
+        594,
+        1349,
+        279,
+        3491,
+        15516,
+        13,
+        576,
+        3383,
+        374,
+        311,
+        1896,
+        1378,
+        25780,
+        856,
+        323,
+        379,
+        369,
+        1817,
+        1273,
+        1142,
+        323,
+        2550,
+        279,
+        8028,
+        8110,
+        553,
+        279,
+        7192,
+        13,
+        576,
+        1946,
+        374,
+        259,
+        1273,
+        5048,
+        11,
+        1817,
+        448,
+        1378,
+        5109,
+        13,
+        576,
+        16982,
+        525,
+        429,
+        856,
+        323,
+        379,
+        525,
+        1948,
+        220
+      ],
+      "text": "<think>\nOkay, I need to solve this programming problem. Let's read the problem carefully. The task is to take two integers x and y for each test case and output the minimum followed by the maximum. The input is t test cases, each with two numbers. The constraints are that x and y are between "
+    }
+  ],
+  "instrumentation": {
+    "stream_spans": {
+      "target_forward": {
+        "total_ms": 383.6330223083496,
+        "calls": 15
+      },
+      "target_prefill_forward": {
+        "total_ms": 50.074623107910156,
+        "calls": 1
+      },
+      "target_decode_forward": {
+        "total_ms": 333.55839920043945,
+        "calls": 14
+      }
+    },
+    "proposed_draft_tokens": 56,
+    "accepted_draft_tokens": 53,
+    "request_verification_iterations": 14,
+    "acceptance_rate": 0.9464285714285714,
+    "accepted_tokens_per_verification": 3.7857142857142856,
+    "verification_counters": [
+      {
+        "proposed_per_request": [
+          4
+        ],
+        "accepted_per_request": [
+          4
+        ]
+      },
+      {
+        "proposed_per_request": [
+          4
+        ],
+        "accepted_per_request": [
+          4
+        ]
+      },
+      {
+        "proposed_per_request": [
+          4
+        ],
+        "accepted_per_request": [
+          4
+        ]
+      },
+      {
+        "proposed_per_request": [
+          4
+        ],
+        "accepted_per_request": [
+          4
+        ]
+      },
+      {
+        "proposed_per_request": [
+          4
+        ],
+        "accepted_per_request": [
+          4
+        ]
+      },
+      {
+        "proposed_per_request": [
+          4
+        ],
+        "accepted_per_request": [
+          4
+        ]
+      },
+      {
+        "proposed_per_request": [
+          4
+        ],
+        "accepted_per_request": [
+          4
+        ]
+      },
+      {
+        "proposed_per_request": [
+          4
+        ],
+        "accepted_per_request": [
+          4
+        ]
+      },
+      {
+        "proposed_per_request": [
+          4
+        ],
+        "accepted_per_request": [
+          1
+        ]
+      },
+      {
+        "proposed_per_request": [
+          4
+        ],
+        "accepted_per_request": [
+          4
+        ]
+      },
+      {
+        "proposed_per_request": [
+          4
+        ],
+        "accepted_per_request": [
+          4
+        ]
+      },
+      {
+        "proposed_per_request": [
+          4
+        ],
+        "accepted_per_request": [
+          4
+        ]
+      },
+      {
+        "proposed_per_request": [
+          4
+        ],
+        "accepted_per_request": [
+          4
+        ]
+      },
+      {
+        "proposed_per_request": [
+          4
+        ],
+        "accepted_per_request": [
+          4
+        ]
+      }
+    ],
+    "selection_samples": [
+      {
+        "budget": [
+          256
+        ],
+        "valid": [
+          265
+        ],
+        "use_weight": false
+      },
+      {
+        "budget": [
+          256
+        ],
+        "valid": [
+          266
+        ],
+        "use_weight": false
+      },
+      {
+        "budget": [
+          256
+        ],
+        "valid": [
+          271
+        ],
+        "use_weight": false
+      },
+      {
+        "budget": [
+          256
+        ],
+        "valid": [
+          276
+        ],
+        "use_weight": false
+      },
+      {
+        "budget": [
+          256
+        ],
+        "valid": [
+          281
+        ],
+        "use_weight": false
+      },
+      {
+        "budget": [
+          256
+        ],
+        "valid": [
+          286
+        ],
+        "use_weight": false
+      },
+      {
+        "budget": [
+          256
+        ],
+        "valid": [
+          291
+        ],
+        "use_weight": false
+      },
+      {
+        "budget": [
+          256
+        ],
+        "valid": [
+          296
+        ],
+        "use_weight": false
+      },
+      {
+        "budget": [
+          256
+        ],
+        "valid": [
+          301
+        ],
+        "use_weight": false
+      },
+      {
+        "budget": [
+          256
+        ],
+        "valid": [
+          306
+        ],
+        "use_weight": false
+      },
+      {
+        "budget": [
+          256
+        ],
+        "valid": [
+          308
+        ],
+        "use_weight": false
+      },
+      {
+        "budget": [
+          256
+        ],
+        "valid": [
+          313
+        ],
+        "use_weight": false
+      },
+      {
+        "budget": [
+          256
+        ],
+        "valid": [
+          318
+        ],
+        "use_weight": false
+      },
+      {
+        "budget": [
+          256
+        ],
+        "valid": [
+          323
+        ],
+        "use_weight": false
+      },
+      {
+        "budget": [
+          256
+        ],
+        "valid": [
+          328
+        ],
+        "use_weight": false
+      }
+    ],
+    "raw_qk_last_query_head0_first16": [
+      21.25,
+      16.875,
+      -12.875,
+      26.375,
+      34.5,
+      32.25,
+      39.0,
+      -10.125,
+      36.25,
+      31.5,
+      48.0,
+      38.75,
+      36.25,
+      -3.625,
+      1.6484375,
+      -13.1875
+    ],
+    "prefill_forward_ms_by_request": {
+      "1": 50.074623107910156
+    }
+  },
+  "metrics": {
+    "e2e_tokens_per_s": 44.25306560954664,
+    "decode_only_tokens_per_s": 46.85341838909861,
+    "acceptance_rate": 0.9464285714285714,
+    "accepted_tokens_per_verification": 3.7857142857142856,
+    "prefill_service_ms_per_request": 100.98464787006378,
+    "prefill_forward_stream_ms_per_request": 50.074623107910156,
+    "ttft_ms_per_request": 101.2728214263916,
+    "tpot_ms": 21.343159888471877,
+    "peak_vram_device_mib": 19882.0625,
+    "peak_torch_allocated_mib": 19032.30078125,
+    "peak_torch_reserved_mib": 19058.0,
+    "profile_draft_ms_per_call": 66.48256274632045,
+    "profile_target_decode_forward_ms_per_call": 27.557983838594875,
+    "profile_rejection_sampler_ms_per_call": 1.0956775225125825,
+    "profile_logit_collection_ms_per_call": 0.056906984354894136,
+    "profile_score_reduction_ms_per_call": 0.04585580973486815,
+    "profile_kv_topk_ms_per_call": 0.11335104868732511,
+    "profile_draft_slot_mapping_ms_per_call": 0.010486856967742954
+  },
+  "metric_notes": {
+    "e2e": "Output tokens / measured generate wall time. Model load, tokenization and warmup excluded; scheduling, prefill, decode included.",
+    "decode_only": "Emission tokens strictly after all requests have first tokens / time from latest first-token timestamp to last emission; sum across rounds.",
+    "prefill_service": "Per-request native scheduled-to-first-emission service span; includes sampling and initial Vegas draft; queue is excluded.",
+    "prefill_forward_stream": "CUDA-event target-forward spans for each request while its prompt is processed; shared batch service time is NOT divided by batch.",
+    "tpot": "Per-request (last emission - first emission) / (output tokens - 1); speculative multi-token bursts are amortized, not individual token arrival intervals.",
+    "overhead": "Nested CUDA stream spans include launch gaps. target_forward includes collection/reduce/topk; draft includes slot mapping. Rejection excludes recomputed draft probabilities; sampling_and_draft_probs includes them. Do not sum overlapping spans.",
+    "acceptance": "Direct counters in greedy/random rejection kernel accept branches, before max_tokens/EOS truncation. Denominator is drafts actually passed to verification; unused final drafts excluded.",
+    "memory": "Peak total device NVML sampled every 10ms during measurement, includes display/allocator/KV reservation. PyTorch peaks separately reported.",
+    "limits": "Eager, synchronous, single GPU; no penalties/bad words/custom logits processors. Dataset benchmark measures speed, not task accuracy."
+  },
+  "overhead_profile": {
+    "separate_round": true,
+    "wall_s": 1.4029218694195151,
+    "stream_spans": {
+      "target_forward": {
+        "total_ms": 408.9868450164795,
+        "calls": 14
+      },
+      "logit_collection": {
+        "total_ms": 28.681120114866644,
+        "calls": 504
+      },
+      "score_reduction": {
+        "total_ms": 23.11132810637355,
+        "calls": 504
+      },
+      "kv_topk": {
+        "total_ms": 57.128928538411856,
+        "calls": 504
+      },
+      "target_prefill_forward": {
+        "total_ms": 50.733055114746094,
+        "calls": 1
+      },
+      "sampling_and_draft_probs": {
+        "total_ms": 33.696768164634705,
+        "calls": 14
+      },
+      "draft_slot_mapping": {
+        "total_ms": 0.14681599754840136,
+        "calls": 14
+      },
+      "draft": {
+        "total_ms": 930.7558784484863,
+        "calls": 14
+      },
+      "target_decode_forward": {
+        "total_ms": 358.2537899017334,
+        "calls": 13
+      },
+      "rejection_sampler": {
+        "total_ms": 14.243807792663574,
+        "calls": 13
+      }
+    },
+    "note": "Separate profiled batch, excluded from primary metrics; event overhead can inflate spans."
+  }
+}

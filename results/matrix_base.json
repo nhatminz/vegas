@@ -1,0 +1,106 @@
+[
+  {
+    "name": "vllm_aime25_b8_l4096_n64",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_baseline.sh",
+      "aime25",
+      "--batch-size",
+      "8",
+      "--output",
+      "results/vllm_aime25_b8_l4096_n64"
+    ],
+    "returncode": 0,
+    "process_wall_s": 16.239242423325777
+  },
+  {
+    "name": "vegas_aime25_b8_l4096_n64",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_vegas.sh",
+      "aime25",
+      "--batch-size",
+      "8",
+      "--output",
+      "results/vegas_aime25_b8_l4096_n64"
+    ],
+    "returncode": 0,
+    "process_wall_s": 19.172511899843812
+  },
+  {
+    "name": "vllm_codeelo_b8_l4096_n64",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_baseline.sh",
+      "codeelo",
+      "--batch-size",
+      "8",
+      "--output",
+      "results/vllm_codeelo_b8_l4096_n64"
+    ],
+    "returncode": 0,
+    "process_wall_s": 19.25887027475983
+  },
+  {
+    "name": "vegas_codeelo_b8_l4096_n64",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_vegas.sh",
+      "codeelo",
+      "--batch-size",
+      "8",
+      "--output",
+      "results/vegas_codeelo_b8_l4096_n64"
+    ],
+    "returncode": 0,
+    "process_wall_s": 21.993623327463865
+  },
+  {
+    "name": "vllm_aime25_b16_l4096_n64",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_baseline.sh",
+      "aime25",
+      "--batch-size",
+      "16",
+      "--output",
+      "results/vllm_aime25_b16_l4096_n64"
+    ],
+    "returncode": 0,
+    "process_wall_s": 17.582537500187755
+  },
+  {
+    "name": "vegas_aime25_b16_l4096_n64",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_vegas.sh",
+      "aime25",
+      "--batch-size",
+      "16",
+      "--output",
+      "results/vegas_aime25_b16_l4096_n64"
+    ],
+    "returncode": 0,
+    "process_wall_s": 19.98791708704084
+  },
+  {
+    "name": "vllm_codeelo_b16_l4096_n64",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_baseline.sh",
+      "codeelo",
+      "--batch-size",
+      "16",
+      "--output",
+      "results/vllm_codeelo_b16_l4096_n64"
+    ],
+    "returncode": 0,
+    "process_wall_s": 21.909231464378536
+  },
+  {
+    "name": "vegas_codeelo_b16_l4096_n64",
+    "command": [
+      "/mnt/hdd/nhatminh/SDLongContext/vegas/scripts/run_vegas.sh",
+      "codeelo",
+      "--batch-size",
+      "16",
+      "--output",
+      "results/vegas_codeelo_b16_l4096_n64"
+    ],
+    "returncode": 0,
+    "process_wall_s": 24.863693851046264
+  }
+]

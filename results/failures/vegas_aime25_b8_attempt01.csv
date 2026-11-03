@@ -1,0 +1,2 @@
+status,method,dataset,batch_size,max_model_len,max_new_tokens,gamma,sparsity_ratio,seed,json
+FAIL,vegas,aime25,8,4096,64,4,0.07,42,results/vegas_aime25_b8_l4096_n64.json
